@@ -18,13 +18,11 @@ export class CoursesService {
   }
 
   async findAll(): Promise<Course[]> {
-    return this.courseRepository.find();
+    return this.courseRepository.find({ where: { deleted_at: null } });
   }
 
   async findOne(id: string): Promise<Course> {
-    return this.courseRepository.findOne({
-      where: { id },
-    });
+    return this.courseRepository.findOne({ where: { id, deleted_at: null } });
   }
 
   async update(id: string, updateCourseDto: UpdateCourseDto): Promise<Course> {
@@ -33,6 +31,6 @@ export class CoursesService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.courseRepository.delete(id);
+    await this.courseRepository.softDelete(id);
   }
 }

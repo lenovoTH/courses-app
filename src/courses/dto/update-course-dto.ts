@@ -4,12 +4,12 @@ import { CourseLevel } from '../course-level.enum';
 export class UpdateCourseDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  title?: string;
 
   @IsString()
   @IsNotEmpty()
-  description: string;
+  description?: string;
 
   @IsEnum(CourseLevel)
-  level: CourseLevel; 
+  level?: CourseLevel; 
 }
