@@ -2,19 +2,22 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import * as dotenv from 'dotenv';
+import { CoursesModule } from './courses/courses.module';
+import { Course } from './courses/entities/course.entity';
+import { DATABASE, PASSWORD, PORT, USERNAME } from './config/env';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: process.env.DB_TYPE as 'postgres',
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      type: 'postgres',
+      port: +PORT,
+      username: USERNAME ,
+      password: PASSWORD,
+      database: DATABASE,
+      entities: [Course],
       synchronize: true,
     }),
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
