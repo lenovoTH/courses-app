@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { CourseLevel } from '../course-level.enum';
+import { CourseLevel } from '../enums/course-level.enum';
 
 @Entity('courses')
 export class Course {

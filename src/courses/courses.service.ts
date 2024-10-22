@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
 import { CreateCourseDto } from './dto/create-course-dto';
 import { UpdateCourseDto } from './dto/update-course-dto';
+import { promises } from 'dns';
 
 @Injectable()
 export class CoursesService {
@@ -13,8 +14,12 @@ export class CoursesService {
   ) {}
 
   async create(createCourseDto: CreateCourseDto): Promise<Course> {
-    const course = this.courseRepository.create(createCourseDto);
-    return this.courseRepository.save(course);
+    try {
+      const course = this.courseRepository.create(createCourseDto);
+      return this.courseRepository.save(course);
+    } catch (err) {
+      Promise.reject(err);
+    }
   }
 
   async findAll(): Promise<Course[]> {
@@ -26,11 +31,16 @@ export class CoursesService {
   }
 
   async update(id: string, updateCourseDto: UpdateCourseDto): Promise<Course> {
-    await this.courseRepository.update(id, updateCourseDto);
-    return this.findOne(id);
+    try {
+      await this.courseRepository.update(id, updateCourseDto);
+      return this.findOne(id);
+    } catch (err) {
+        Promise.reject(err);
+    }
   }
 
   async remove(id: string): Promise<void> {
     await this.courseRepository.softDelete(id);
   }
+  
 }
